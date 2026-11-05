@@ -39,7 +39,7 @@ setup(
     install_requires=REQUIRES,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
-    license="Proprietary",
+    license="Apache-2.0",
     long_description_content_type="text/markdown",
     long_description="""\
     API for Gencove REST service. Visit &lt;a href&#x3D;&#39;https://enterprise.gencove.com/&#39;&gt;enterprise.gencove.com&lt;/a&gt; and &lt;a href&#x3D;&#39;https://docs.gencove.com/&#39;&gt;docs.gencove.com&lt;/a&gt; for more information. &lt;br&gt;&lt;hr&gt;&lt;p&gt;To work with Insomnia, you can generate a Gencove API key by &lt;a target&#x3D;&#39;_blank&#39; href&#x3D;&#39;https://web.gencove.com/account?filter&#x3D;api-keys&#39;&gt;clicking here&lt;/a&gt;. Once you have the API key and have imported the project in Insomnia as a &lt;i&gt;Request Collection&lt;/i&gt;, enter the key in Insomnia under &lt;i&gt;Manage Environment&lt;/i&gt;.&lt;/p&gt;&lt;a href&#x3D;&#39;https://insomnia.rest/run/?label&#x3D;back_api2&amp;uri&#x3D;https%3A%2F%2Fv2-api-files-prod.s3.amazonaws.com%2Fpublic%2Finsomnia%2Finsomnia_gencove_prod.json&#39; target&#x3D;&#39;_blank&#39;&gt;Run in Insomnia&lt;/a&gt;&lt;hr&gt;

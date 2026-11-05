@@ -66,6 +66,10 @@ def patch(node):
 patch(spec)
 for ref in null_refs:
     del schemas[ref.rsplit("/", 1)[1]]
+
+# The spec's license ("Proprietary") covers Gencove's API, not this client;
+# the generator copies it into the package metadata, so set ours instead.
+spec["info"]["license"] = {"name": "Apache-2.0", "url": "https://www.apache.org/licenses/LICENSE-2.0"}
 json.dump(spec, open(sys.argv[2], "w"), indent=2)
 PY
 
@@ -100,6 +104,34 @@ docker run --rm \
     --additional-properties="packageVersion=${PACKAGE_VERSION},packageUrl=https://github.com/altissimo-hq/gencove-python,buildSystem=hatchling,disallowAdditionalPropertiesIfNotPresent=false"
 
 trap - ERR
+
+# The generator rewrites README.md on every run, so add the "About this
+# repository" section back after its title each time.
+python3 - README.md <<'PY'
+import sys
+
+ABOUT = """
+## About this repository
+
+An unofficial Python client for the [Gencove](https://gencove.com) API, maintained by
+[Altissimo](https://altissimo.io). It is not affiliated with or supported by Gencove.
+
+Almost everything here is generated from Gencove's OpenAPI spec (`openapi.json`) by
+`./generate.sh`, so don't edit the generated files by hand: change `generate.sh` or
+`.openapi-generator-ignore` and regenerate. Run `./generate.sh --update-spec` to pull
+the current spec from Gencove first.
+
+The client code is licensed under Apache-2.0 (see `LICENSE`). The Gencove API itself,
+and its spec, are Gencove's.
+"""
+
+path = sys.argv[1]
+text = open(path).read()
+if "## About this repository" not in text:
+    title, _, rest = text.partition("\n")
+    text = f"{title}\n{ABOUT}\n{rest}"
+    open(path, "w").write(text)
+PY
 
 # Apply the repo's pre-commit fixes (black, trailing whitespace, end of file)
 # so the generated code is committed in its formatted form. Hooks exit
